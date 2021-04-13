@@ -31,21 +31,43 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
+
+# basics for user
 @app.route('/user', methods=['GET'])
 def handle_allUsers():
 
-    return jsonify(User.uservalues()), 200
+    return jsonify(User.getAll_users()), 200
+
+@app.route('/user/<int:id>', methods=['GET'])
+def handle_OneUser():
+
+    return jsonify(User.getOne_user()), 200
 
 @app.route('/user', methods=['POST'])
 def handle_addUsers():
     request_body_user=request.data
     decoded_object = json.loads(request_body_user)
     return jsonify(User.add_user(decoded_object)), 200
+    
+@app.route('/user/<int:id>', methods=['DELETE'])
+def delete_user(id):
+    return jsonify(User.deleteUser(id)), 200
 
+# To add the user favorites
+@app.route('/user/<int:id>/addFavoriteCharacter/<int:character_id>', methods=['PUT'])
+def add_favorite_character(id, character_id):
+    return jsonify(User.user_favorite_characters(id, character_id))
+
+@app.route('/user/<int:id>/addFavoritePlanet/<int:planet_id>', methods=['PUT'])
+def add_favorite_planet(id, planet_id):
+    return jsonify(User.user_favorite_planet(id, planet_id))
+
+
+#basics for characters
 @app.route('/characters', methods=['GET'])
 def handle_allCharacters():
 
-    return jsonify(Character.charactersvalues()), 200
+    return jsonify(Character.getAll_characters()), 200
 
 @app.route('/characters', methods=['POST'])
 def handle_addCharacters():
@@ -53,10 +75,12 @@ def handle_addCharacters():
     decoded_object = json.loads(request_body_character)
     return jsonify(Character.add_character(decoded_object)), 200
 
+
+#basics for planets
 @app.route('/planets', methods=['GET'])
 def handle_allPlanets():
 
-    return jsonify(Planet.planetsvalues()), 200
+    return jsonify(Planet.getAll_planets()), 200
 
 @app.route('/planets', methods=['POST'])
 def handle_addPlanets():
