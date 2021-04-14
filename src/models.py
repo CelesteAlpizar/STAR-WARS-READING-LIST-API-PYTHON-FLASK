@@ -37,8 +37,7 @@ class User(db.Model):
         return all_user
 
     def getOne_user(id):
-        user_query = User.query.get(id)
-        return(user_query.serialize())
+        return (User.query.get(id).serialize())
 
     def add_user(request_body_user):
         user = User(fullname=request_body_user["fullname"], username=request_body_user["username"], email=request_body_user["email"], password=request_body_user["password"])
@@ -84,11 +83,11 @@ class Character(db.Model):
     __tablename__ = 'personaje'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
-    birth_year = db.Column(db.String(120), unique=True, nullable=False)
-    gender = db.Column(db.String(120), unique=True, nullable=False)
-    height = db.Column(db.String(120), unique=False, nullable=False)
-    skin_color = db.Column(db.String(120), unique=True, nullable=False)
-    eye_color = db.Column(db.String(120), unique=False, nullable=False)
+    birth_year = db.Column(db.String(120), nullable=False)
+    gender = db.Column(db.String(120), nullable=False)
+    height = db.Column(db.String(120), nullable=False)
+    skin_color = db.Column(db.String(120), nullable=False)
+    eye_color = db.Column(db.String(120), nullable=False)
 
     usuario = db.relationship("User", secondary=favorite_characters, back_populates="personaje")
 
@@ -99,6 +98,11 @@ class Character(db.Model):
         return {
             "id": self.id,
             "name": self.name,
+            "birth_year": self.birth_year,
+            "gender": self.gender,
+            "height": self.height,
+            "skin_color": self.skin_color,
+            "eye_color": self.eye_color
         }
 
     def getAll_characters():
@@ -123,11 +127,11 @@ class Planet(db.Model):
     __tablename__ = 'planeta'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
-    climate = db.Column(db.String(120), unique=True, nullable=False)
-    population = db.Column(db.String(120), unique=True, nullable=False)
-    orbital_period = db.Column(db.String(120), unique=False, nullable=False)
-    rotation_period = db.Column(db.String(120), unique=True, nullable=False)
-    diameter = db.Column(db.String(120), unique=False, nullable=False)
+    climate = db.Column(db.String(120), nullable=False)
+    population = db.Column(db.String(120), nullable=False)
+    orbital_period = db.Column(db.String(120), nullable=False)
+    rotation_period = db.Column(db.String(120), nullable=False)
+    diameter = db.Column(db.String(120), nullable=False)
 
     usuario = db.relationship("User", secondary=favorite_planets, back_populates="planeta") 
 
@@ -138,6 +142,11 @@ class Planet(db.Model):
         return {
             "id": self.id,
             "name": self.name,
+            "climate": self.climate,
+            "population": self.population,
+            "orbital_period": self.orbital_period,
+            "rotation_period": self.rotation_period,
+            "diameter": self.diameter
         }
 
     def getAll_planets():

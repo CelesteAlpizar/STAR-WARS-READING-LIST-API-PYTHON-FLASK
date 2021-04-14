@@ -39,9 +39,8 @@ def handle_allUsers():
     return jsonify(User.getAll_users()), 200
 
 @app.route('/user/<int:id>', methods=['GET'])
-def handle_OneUser():
-
-    return jsonify(User.getOne_user()), 200
+def handle_OneUser(id):
+    return jsonify(User.getOne_user(id)), 200
 
 @app.route('/user', methods=['POST'])
 def handle_addUsers():
@@ -51,7 +50,7 @@ def handle_addUsers():
     
 @app.route('/user/<int:id>', methods=['DELETE'])
 def delete_user(id):
-    return jsonify(User.deleteUser(id)), 200
+    return jsonify(User.remove_User(id)), 200
 
 # To add the user favorites
 @app.route('/user/<int:id>/addFavoriteCharacter/<int:character_id>', methods=['PUT'])
